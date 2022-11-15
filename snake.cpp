@@ -7,6 +7,7 @@ const int height=720;
 int main(int argc,char* args[])
 {
     RenderWindow window("snake", width, height);
+    SDL_Texture *grass=window.loadTexture("Texturi/grass.png");
     bool GameRunning=true;
     SDL_Event e;
     while(GameRunning==true)
@@ -16,8 +17,12 @@ int main(int argc,char* args[])
             if(e.type == SDL_QUIT)   
             {GameRunning = false;}
         }
+        window.Clear();
+        window.Renderer(grass);
+        window.Display();
     }
     window.Clean();
     SDL_Quit();
     return 0;
 }
+
