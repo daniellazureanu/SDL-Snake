@@ -3,6 +3,8 @@
 #include "renderwindow.h"
 #include "entity.h"
 #include <vector>
+#include <ctime>
+#define element Entity(0,0,tail)
 using namespace std;
 const int width=768;
 const int height=768;
@@ -12,12 +14,18 @@ int main(int argc,char* args[])
     RenderWindow window("snake", width, height);
     SDL_Texture* grass = window.loadTexture("Texturi/grass.png");
     SDL_Texture* snaketex = window.loadTexture("Texturi/snakeup.png");
-    Entity entities[2] = {Entity(0,0, grass), Entity(768/2, 768/2, snaketex)};
+	SDL_Texture* fruit = window.loadTexture("Texturi/fruit.png");
+	SDL_Texture* tail = window.loadTexture("Texturi/tail.png");
+	Entity entities[3] = { Entity(0,0, grass),
+						  Entity(768 / 2, 768 / 2, snaketex),
+						  Entity(rand() % 11 * 64, rand() % 11 * 64, fruit) };
+	std::vector <Entity> body(50, element);
     bool GameRunning=true;
     SDL_Event e;
 
     enum Direction {UP,DOWN,LEFT,RIGHT};
 	int dir = -1;
+	int tails = 0;
 
     while(GameRunning){
 		while(SDL_PollEvent(&e)){
@@ -45,6 +53,12 @@ int main(int argc,char* args[])
 				}
 			}
 		}
+		for (int i = tails; i > 0; i--) {
+			body[i].x = int(body[i - 1].x);
+			body[i].y = int(body[i - 1].y);
+		}
+		body[0].x = int(entities[1].x);
+		body[0].y = int(entities[1].y);
 
 		switch(dir){
 			case LEFT: // if dir = LEFT atunci
@@ -60,12 +74,26 @@ int main(int argc,char* args[])
 				entities[1].x+=64;
 				break;
 		}
+		for (int i = 0; i < tails; i++) {
+			if (entities[1].x == body[i].x && entities[1].y == body[i].y)
+				GameRunning = false;
+		}
+		if (entities[1].x == entities[2].x && entities[1].y == entities[2].y) {
+			entities[2].x = rand() % 11 * 64;
+			entities[2].y = rand() % 11 * 64;
+			tails++;
+		}
+
     window.Clear();
 	window.Render(entities[0]);
 	window.Render(entities[1]);
+	window.Render(entities[2]);
+	for (int i = 0; i < tails; i++)
+		window.Render(body[i]);
     window.Display();
 	SDL_Delay(200);
 	}
+
 	window.Clean();
 	SDL_Quit();
 
