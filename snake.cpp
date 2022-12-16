@@ -6,8 +6,8 @@
 #include <ctime>
 #define element Entity(0,0,tail)
 using namespace std;
-const int width=1280;
-const int height=832;
+const int width=1600;
+const int height=896;
 int main(int argc,char* args[])
 {
     SDL_Renderer* renderer;
@@ -18,7 +18,7 @@ int main(int argc,char* args[])
 	SDL_Texture* tail = window.loadTexture("Texturi/tail.png");
 	Entity entities[3] = { Entity(0,0, grass),
 						  Entity(768 / 2, 768 / 2, snaketex),
-						  Entity(rand() % 20 * 64, rand() % 13 * 64, fruit) };
+						  Entity(rand() % 25 * 64, rand() % 14 * 64, fruit) };
 	std::vector <Entity> body(50, element);
     bool GameRunning=true;
     SDL_Event e;
@@ -79,25 +79,25 @@ int main(int argc,char* args[])
 				GameRunning = false;
 		}
 		if (entities[1].x == entities[2].x && entities[1].y == entities[2].y) {
-			entities[2].x = rand() % 20 * 64;
-			entities[2].y = rand() % 13 * 64;
+			entities[2].x = rand() % 25 * 64;
+			entities[2].y = rand() % 14 * 64;
 			tails++;
 		}
 		for(int i=0;i<tails;i++)
 		{
 			if(entities[2].x==body[i].x&&entities[2].y==body[i].y)
 			{
-				entities[2].x = rand() % 20 * 64;
-				entities[2].y = rand() % 13 * 64;
+				entities[2].x = rand() % 25 * 64;
+				entities[2].y = rand() % 14 * 64;
 			}
 		}
 		if(entities[1].x<0)
-		entities[1].x=20*64;
-		if(entities[1].x>20*64)
+		entities[1].x=25*64;
+		if(entities[1].x>25*64)
 		entities[1].x=0;
 		if(entities[1].y<0)
-		entities[1].y=13*64;
-		if(entities[1].y>13*64)
+		entities[1].y=14*64;
+		if(entities[1].y>14*64)
 		entities[1].y=0;
 		
 
