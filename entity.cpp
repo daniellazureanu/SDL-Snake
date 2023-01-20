@@ -29,3 +29,4 @@ SDL_Point Entity::getSize(SDL_Texture* texture) {
     SDL_QueryTexture(texture, NULL, NULL, &size.x, &size.y);
     return size;
 }
+//test
